@@ -16,13 +16,13 @@ Create Key Pairs to be used in the architecture.
 ## 2. Launch VPC 							
 Choose option two with create two subnets, one public and the other private.	
 
-<img src="./img/awsimg3.jpg" width="500">
+<kbd><img src="./img/awsimg3.jpg" width="500"></kbd>
 <br>
-<img src="./img/awsimg4.jpg" width="500">
+<kbd><img src="./img/awsimg4.jpg" width="500"></kbd>
 
 Here now, we use NAT instance. Make sure you click "Use a NAT instance instead" and create EC2 instance for NAT ("NAT #2"). 
 
-<img src="./img/awsimg5.jpg" width="500">				
+<kbd><img src="./img/awsimg5.jpg" width="500"></kbd>				
 
 <br>
 
@@ -41,11 +41,11 @@ Do not forget setting VPC Network and Subnet to the created ones in step 2 as fo
 	- Auto-assign Public IP = Disable
 	- Another new Security Group (configuration will be done below)				
 
-<img src="./img/awsimg7.jpg" width="500">
+<kbd><img src="./img/awsimg7.jpg" width="500"></kbd>
 <br>
-<img src="./img/awsimg8.jpg" width="500">
+<kbd><img src="./img/awsimg8.jpg" width="500"></kbd>
 <br>
-<img src="./img/awsimg9.jpg" width="500">
+<kbd><img src="./img/awsimg9.jpg" width="500"></kbd>
 
 <br>
 
@@ -53,36 +53,41 @@ Do not forget setting VPC Network and Subnet to the created ones in step 2 as fo
 Convert .pem key to .ppk key using PuTTYgen.						
 - Load created .pem key.					
 - Save private key in the same name but with .ppk extension.
-<img src="./img/awsimg6.jpg" width="500">
+<kbd><img src="./img/awsimg6.jpg" width="500"></kbd>
 
 Connect instance using PuTTY.					
 - Remember public IP of Public #1.					
 - Go Connection > SSH > Auth and set .ppk just created as private key.	
-<img src="./img/awsimg10.jpg" width="500">
+<kbd><img src="./img/awsimg10.jpg" width="500"></kbd>
 
 - Set host as ec2-user@<recorded public IP of Public #1> and connect.	
-<img src="./img/awsimg11.jpg" width="500">
+<kbd><img src="./img/awsimg11.jpg" width="500"></kbd>
 
 - Check connectivity with Command "ping www.google.com" after landing Public #1.
-<img src="./img/awsimg12.jpg" width="500">
+<kbd><img src="./img/awsimg12.jpg" width="500"></kbd>
 
 <br>
 
 ## 5. Copy private key on Public #1							
 Using WinSCP, connect to Public #1 and copy .pem key.						
 check if it's on Public #1 by 'ls'.		
-<img src="./img/awsimg13.jpg" width="500">
+<kbd><img src="./img/awsimg13.jpg" width="500"></kbd>
+
 <br>
-<img src="./img/awsimg14.jpg" width="500">
+
+<kbd><img src="./img/awsimg14.jpg" width="500"></kbd>
+
 <br>
-<img src="./img/awsimg15.jpg" width="500">
+
+<kbd><img src="./img/awsimg15.jpg" width="500"></kbd>
 	
 <br>
 	
 ## 6. Security Group configuration							
 Here we configure the Security Groups.  
 
-| Security Group of Public #1 |						
+| Security Group of Public #1 |	
+| --- | --- |
 | inbound | SSH all (default) |	<- This is only accesible from PuTTY.
 		outbound:	All traffic (default)				
 							
@@ -105,7 +110,7 @@ Private #3 is private instance and not reachable from internet but thanks to Sec
 - Do ssh -i "<.pem private key name>" ec2-user@<private IP of Private #3 just recorded>						
 - Check connectivity by command 'ping www.google.com'					
 
-<img src="./img/awsimg16.jpg" width="500">
+<kbd><img src="./img/awsimg16.jpg" width="500"></kbd>
 
 <br>
 
