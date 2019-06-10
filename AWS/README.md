@@ -62,6 +62,8 @@ Convert .pem key to .ppk key using PuTTYgen.
 
 <kbd><img src="./img/awsimg6.jpg" width="500"></kbd>
 
+<br>
+
 Connect instance using PuTTY.					
 - Remember public IP of Public #1.					
 - Go Connection > SSH > Auth and set .ppk just created as private key.	
@@ -96,20 +98,19 @@ check if it's on Public #1 by 'ls'.
 	
 ## 6. Security Group configuration							
 Here we configure the Security Groups.  
-
-| Security Group of Public #1 |	
-| --- | --- |
-| inbound | SSH all (default) |	<- This is only accesible from PuTTY.
-		outbound:	All traffic (default)				
-							
-	Security Group of NAT #2						
-		inbound:	All traffic from Security group of Private #3				<- NAT at least needs inbound permission from private instances.
-		outbound:	All traffic (default)				
-							
-	Security Group of Private #3						
-		inbound:	SSH all				<- Public #1 can access through this
-			All traffic from Security group of NAT #2				
-		outbound:	All traffic (default)				
+<br>
+### Security Group of Public #1
+- inbound: SSH all (default) <- This is only accesible from PuTTY.<br>
+- outbound: All traffic (default)				
+<br><br>							
+### Security Group of NAT #2						
+- inbound: All traffic from Security group of Private #3 <- NAT at least needs inbound permission from private instances.<br>
+- outbound: All traffic (default)	
+<br><br>						
+### Security Group of Private #3						
+- inbound: SSH all (default) <- Public #1 can access through this
+	   All traffic from Security group of NAT #2				
+- outbound: All traffic (default)				
 
 <br>
 
@@ -136,7 +137,8 @@ Confirm if logging in to Private #4 from Public #1 and it can do ping www.google
 <br>
 
 ## 9. Clean up the experiment							
-Terminate all instances. Security Groups and VPC can be left undeleted as needed (no charge).<br>			
+Terminate all instances. Security Groups and VPC can be left undeleted as needed (no charge).
+<br>			
 If Elastic IP associated to NAT #2 will not used in other instances, release it (no use elastic IP results in charge).
 
 <br>
