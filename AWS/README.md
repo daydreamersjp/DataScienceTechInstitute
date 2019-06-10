@@ -57,7 +57,8 @@ Do not forget setting VPC Network and Subnet to the created ones in step 2 as fo
 
 <br>
 
-## 4. Connect instance Public #1 and check 'ping www.google.com' for connectivity check							
+## 4. Connect instance Public #1 and check '
+www.google.com' for connectivity check							
 Convert .pem key to .ppk key using PuTTYgen.						
 - Load created .pem key.					
 - Save private key in the same name but with .ppk extension.
@@ -122,7 +123,7 @@ Here we configure the Security Groups.
 
 <br>
 
-## 7. Connect to Private #3 from Public #1 and check ping www.google.com for connectivity check
+## 7. Connect to Private #3 from Public #1 and check 'ping www.google.com' for connectivity check
 Private #3 is private instance and not reachable from internet but thanks to Security Group configuration, we can access from Public #1 and make sure they can send a request to internet. 
 
 - On Public #1, do "chmod 400 <.pem private key name just copied to Public #1>".						
@@ -136,7 +137,7 @@ Private #3 is private instance and not reachable from internet but thanks to Sec
 
 ## 8. Further extension of architecture							
 Launching another private instance ("Private #4") and set its Security Group as the same asPrivate #3.						
-Confirm if logging in to Private #4 from Public #1 and it can do ping www.google.com.						
+Confirm if logging in to Private #4 from Public #1 and it can do 'ping www.google.com'.						
 - Command 'exit' twice to go back to host, Public #1					
 - Run 'ssh -i "<.pem private key name>" ec2-user@<private IP of Private #4 just recorded>'					
 - Check connectivity with command 'ping www.google.com'				
