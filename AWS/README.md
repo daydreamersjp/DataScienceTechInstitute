@@ -57,8 +57,7 @@ Do not forget setting VPC Network and Subnet to the created ones in step 2 as fo
 
 <br>
 
-## 4. Connect instance Public #1 and check '
-www.google.com' for connectivity check							
+## 4. Connect instance Public #1 and check 'www.google.com' for connectivity check							
 Convert .pem key to .ppk key using PuTTYgen.						
 - Load created .pem key.					
 - Save private key in the same name but with .ppk extension.
