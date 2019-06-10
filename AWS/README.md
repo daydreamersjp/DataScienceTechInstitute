@@ -9,14 +9,14 @@ This README's goal is to show the process to construct AWS environment in the co
 ## 1. Prepare Key Pairs							
 Create Key Pairs to be used in the architecture.						
 
-<img src="./img/awsimg2.jpg" width="500" border="black">
+<kdb><img src="./img/awsimg2.jpg" width="500" border="black"></kdb>
 			
 <br>
 
 ## 2. Launch VPC 							
 Choose option two with create two subnets, one public and the other private.	
 
-<img src="./img/awsimg3.jpg" width="500">
+<img src="./img/awsimg3.jpg" width="500"><br>
 <img src="./img/awsimg4.jpg" width="500">
 
 Here now, we use NAT instance. Make sure you click "Use a NAT instance instead" and create EC2 instance for NAT ("NAT #2"). 
@@ -40,8 +40,8 @@ Do not forget setting VPC Network and Subnet to the created ones in step 2 as fo
 	- Auto-assign Public IP = Disable
 	- Another new Security Group (configuration will be done below)				
 
-<img src="./img/awsimg7.jpg" width="500">
-<img src="./img/awsimg8.jpg" width="500">
+<img src="./img/awsimg7.jpg" width="500"><br>
+<img src="./img/awsimg8.jpg" width="500"><br>
 <img src="./img/awsimg9.jpg" width="500">
 
 <br>
@@ -68,8 +68,8 @@ Connect instance using PuTTY.
 ## 5. Copy private key on Public #1							
 Using WinSCP, connect to Public #1 and copy .pem key.						
 check if it's on Public #1 by 'ls'.		
-<img src="./img/awsimg13.jpg" width="500">
-<img src="./img/awsimg14.jpg" width="500">
+<img src="./img/awsimg13.jpg" width="500"><br>
+<img src="./img/awsimg14.jpg" width="500"><br>
 <img src="./img/awsimg15.jpg" width="500">
 	
 <br>
