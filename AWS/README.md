@@ -9,7 +9,7 @@ This README's goal is to show the process to construct AWS environment in the co
 ## 1. Prepare Key Pairs							
 Create Key Pairs to be used in the architecture.						
 
-<img src="./img/awsimg2.jpg" width="500">
+<img src="./img/awsimg2.jpg" width="500" border="black">
 			
 <br>
 
@@ -22,7 +22,9 @@ Choose option two with create two subnets, one public and the other private.
 Here now, we use NAT instance. Make sure you click "Use a NAT instance instead" and create EC2 instance for NAT ("NAT #2"). 
 
 <img src="./img/awsimg5.jpg" width="500">				
-							
+
+<br>
+
 ## 3. Lunch EC2 instances							
 
 Create 2 instances, one is supposed to put in public subnet ("Public #1") and the other is to put in private subnet ("Private #3").
@@ -42,6 +44,7 @@ Do not forget setting VPC Network and Subnet to the created ones in step 2 as fo
 <img src="./img/awsimg8.jpg" width="500">
 <img src="./img/awsimg9.jpg" width="500">
 
+<br>
 
 ## 4. Connect instance Public #1 and check 'ping www.google.com' for connectivity check							
 Convert .pem key to .ppk key using PuTTYgen.						
@@ -59,14 +62,18 @@ Connect instance using PuTTY.
 
 - Check connectivity with Command "ping www.google.com" after landing Public #1.
 <img src="./img/awsimg12.jpg" width="500">
-							
+
+<br>
+
 ## 5. Copy private key on Public #1							
 Using WinSCP, connect to Public #1 and copy .pem key.						
 check if it's on Public #1 by 'ls'.		
 <img src="./img/awsimg13.jpg" width="500">
 <img src="./img/awsimg14.jpg" width="500">
 <img src="./img/awsimg15.jpg" width="500">
-							
+	
+<br>
+	
 ## 6. Security Group configuration							
 Here we configure the Security Groups.  
 
@@ -82,24 +89,34 @@ Here we configure the Security Groups.
 		inbound:	SSH all				<- Public #1 can access through this
 			All traffic from Security group of NAT #2				
 		outbound:	All traffic (default)				
-							
-Connect instance Private #3 from Public #1 and check ping www.google.com for connectivity check of Private #3							
-	On Public #1, do "chmod 400 <.pem private key name just copied to Public #1>".						
-	Record the private IP of Private #3.						
-	Do ssh -i "<.pem private key name>" ec2-user@<private IP of Private #3 just recorded>						
-	Check connectivity 						
-		Command "ping www.google.com"					
-							
-Further extension of architecture							
-	Launch instance Private #4 with disabled public IP and the Security Group of Private #3.						
-	Confirm if logging in to Private #4 from Public #1 and it can do ping www.google.com.						
-		type exit to go back to host, Public #1					
-		Do ssh -i "<.pem private key name>" ec2-user@<private IP of Private #4 just recorded>					
-		Check connectivity 					
-			Command "ping www.google.com"				
-							
-Clean up							
-	Terminate all instances.						
-	Security Groups and VPC can be left undeleted.						
-	If Elastic IP associated to NAT #2 will not used in other instances, release it.						
+
+<br>
+
+## 7. Connect to Private #3 from Public #1 and check ping www.google.com for connectivity check
+Private #3 is private instance and not reachable from internet but thanks to Security Group configuration, we can access from Public #1 and make sure they can send a request to internet. 
+
+- On Public #1, do "chmod 400 <.pem private key name just copied to Public #1>".						
+- Record the private IP of Private #3.						
+- Do ssh -i "<.pem private key name>" ec2-user@<private IP of Private #3 just recorded>						
+- Check connectivity by command 'ping www.google.com'					
+
+<img src="./img/awsimg16.jpg" width="500">
+
+<br>
+
+## 8. Further extension of architecture							
+Launching another private instance ("Private #4") and set its Security Group as the same asPrivate #3.						
+Confirm if logging in to Private #4 from Public #1 and it can do ping www.google.com.						
+- Command 'exit' twice to go back to host, Public #1					
+- Run 'ssh -i "<.pem private key name>" ec2-user@<private IP of Private #4 just recorded>'					
+- Check connectivity with command 'ping www.google.com'				
+			
+
+<br>
+
+## 9. Clean up the experiment							
+Terminate all instances. Security Groups and VPC can be left undeleted as needed (no charge).					
+If Elastic IP associated to NAT #2 will not used in other instances, release it (no use elastic IP results in charge).
+
+<br>
 
