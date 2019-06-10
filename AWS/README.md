@@ -2,7 +2,7 @@
 
 This README's goal is to show the process to construct AWS environment in the configuration below.
 
-![](./img/awsimg1.jpg)
+![](./img/awsimg1.jpg | width = 100)
 
 
 Prepare Key Pairs							
