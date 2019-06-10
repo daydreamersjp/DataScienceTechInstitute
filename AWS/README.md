@@ -22,6 +22,8 @@ Choose option two with create two subnets, one public and the other private.
 
 <kbd><img src="./img/awsimg4.jpg" width="500"></kbd>
 
+<br>
+
 Here now, we use NAT instance. Make sure you click "Use a NAT instance instead" and create EC2 instance for NAT ("NAT #2"). 
 
 <kbd><img src="./img/awsimg5.jpg" width="500"></kbd>				
@@ -100,17 +102,23 @@ check if it's on Public #1 by 'ls'.
 Here we configure the Security Groups.  
 <br>
 ### Security Group of Public #1
-- inbound: SSH all (default) <- This is only accesible from PuTTY.<br>
-- outbound: All traffic (default)				
+- inbound: 
+	- SSH all (default) <- This is only accesible from PuTTY.<br>
+- outbound: 
+	- All traffic (default)				
 <br><br>							
 ### Security Group of NAT #2						
-- inbound: All traffic from Security group of Private #3 <- NAT at least needs inbound permission from private instances.<br>
-- outbound: All traffic (default)	
+- inbound: 
+	- All traffic from Security group of Private #3 <- NAT at least needs inbound permission from private instances.<br>
+- outbound: 
+	- All traffic (default)	
 <br><br>						
 ### Security Group of Private #3						
-- inbound: SSH all (default) <- Public #1 can access through this
-	   All traffic from Security group of NAT #2				
-- outbound: All traffic (default)				
+- inbound: 
+	- SSH all (default) <- Public #1 can access through this
+	- All traffic from Security group of NAT #2				
+- outbound: 
+	- All traffic (default)				
 
 <br>
 
