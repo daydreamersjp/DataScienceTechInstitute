@@ -1,3 +1,5 @@
+# In-class Lab: First AWS Architecture with Public and Private Subnets
+
 ## Goal of this README	
 
 This README's goal is to show the process to construct AWS environment in the configuration below.
