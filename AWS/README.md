@@ -53,20 +53,25 @@ Connect instance using PuTTY.
 - Remember public IP of Public #1.					
 - Go Connection > SSH > Auth and set .ppk just created as private key.	
 <img src="./img/awsimg10.jpg" width="500">
+
 - Set host as ec2-user@<recorded public IP of Public #1> and connect.	
 <img src="./img/awsimg11.jpg" width="500">
+
 - Check connectivity with Command "ping www.google.com" after landing Public #1.
 <img src="./img/awsimg12.jpg" width="500">
 							
 ## 5. Copy private key on Public #1							
 Using WinSCP, connect to Public #1 and copy .pem key.						
 check if it's on Public #1 by 'ls'.		
-
-
+<img src="./img/awsimg13.jpg" width="500">
+<img src="./img/awsimg14.jpg" width="500">
+<img src="./img/awsimg15.jpg" width="500">
 							
-Security Group configuration							
-	Security Group of Public #1						
-		inbound:	SSH all (default)				<- This is only accesible from PuTTY.
+## 6. Security Group configuration							
+Here we configure the Security Groups.  
+
+| Security Group of Public #1 |						
+| inbound | SSH all (default) |	<- This is only accesible from PuTTY.
 		outbound:	All traffic (default)				
 							
 	Security Group of NAT #2						
