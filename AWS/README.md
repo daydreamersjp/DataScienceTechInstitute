@@ -4,7 +4,7 @@
 
 This README's goal is to show the process to construct AWS environment in the configuration below.
 
-<img src="./img/awsimg1.jpg" width="501">
+<img src="./img/awsimg1.jpg" width="500">
 
 <br>
 
