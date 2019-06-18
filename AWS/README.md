@@ -2,7 +2,7 @@ This respository is to keep the records of AWS tricks told in the AWS class.
 
 <br><hr><br>
 
-Index:
+# Index:
 
 - [First AWS Architecture with Public and Private Subnets](https://github.com/daydreamersjp/DataScienceTechInstitute/tree/master/AWS#in-class-lab-20190605-first-aws-architecture-with-public-and-private-subnets)
 
@@ -32,7 +32,7 @@ No specific note for this process.
 
 Use the following command in the instance:
 
-```
+```linux
 echo "[text content]" >>  [text file name].txt
 ```
 
