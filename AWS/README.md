@@ -222,10 +222,15 @@ Go to S3 and click "Create Bucket" and generate a new bucket.
 	- Go to IAM > Roles > Choose EC2 as the service that will use > Choose "AmazonS3FullAccess"	
 
 <kbd><img src="./img/awsimg20.jpg" width="500"></kbd>
+
 <br>
+
 <kbd><img src="./img/awsimg21.jpg" width="500"></kbd>
+
 <br>
+
 <kbd><img src="./img/awsimg22.jpg" width="500"></kbd>
+
 <br>
 
 - Attach the IAM just created to the instance.		
