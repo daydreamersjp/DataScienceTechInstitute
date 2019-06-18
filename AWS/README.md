@@ -276,11 +276,8 @@ aws s3 cp s3://[bucket-name]/[text file name].txt
 The goal of this trick is to prepare a new instance with the following software installed at the time of instance.
 
 - R
-
 - RServer
-
 - Shiny
-
 - Shiny Server
 
 <br>
