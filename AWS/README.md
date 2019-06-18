@@ -7,7 +7,7 @@ This respository is to keep the records of AWS tricks told in the AWS class.
 - [First AWS Architecture with Public and Private Subnets](https://github.com/daydreamersjp/DataScienceTechInstitute/tree/master/AWS#in-class-lab-20190605-first-aws-architecture-with-public-and-private-subnets)
 - [Create a Text File in Linux Instance and Push to S3 Bucket](https://github.com/daydreamersjp/DataScienceTechInstitute/tree/master/AWS#in-class-lab-20190612-create-a-text-file-in-linux-instance-and-push-to-s3-bucket)
 - [Install R, RServer, Shiny, and Shiny Server on New Instance at Time of Launch](https://github.com/daydreamersjp/DataScienceTechInstitute/tree/master/AWS#in-class-lab-20190612-install-r-rserver-shiny-and-shiny-server-on-new-instance-at-time-of-launch)
-- [To Come: Running a Small Face Recognition App on AWS]()
+- [My Friend @Yuhsuant1994's Excellent Work: Running a Small Face Recognition App on AWS](https://github.com/Yuhsuant1994/DataScienceTechInstitute/blob/master/AWS/4.%20Set%20up%20facial%20recognition%20application/readme.md)
 
 
 <br><hr><br>
