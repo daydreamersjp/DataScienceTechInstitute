@@ -199,6 +199,7 @@ echo "[text content]" >>  [text file name].txt
 ## 3. Check the Text File Was Correctly Created
 
 To check the content of the file, use the following command.
+
 ```command
 cat [text file name].txt
 ```
@@ -220,14 +221,18 @@ Go to S3 and click "Create Bucket" and generate a new bucket.
 - Prepare IAM Role which allows EC2 instance to access S3.		
 	- Go to IAM > Roles > Choose EC2 as the service that will use > Choose "AmazonS3FullAccess"	
 
-<kbd><img src="./img/awsimg20.jpg" width="500"></kbd><br>
-<kbd><img src="./img/awsimg21.jpg" width="500"></kbd><br>
-<kbd><img src="./img/awsimg22.jpg" width="500"></kbd><br>
+<kbd><img src="./img/awsimg20.jpg" width="500"></kbd>
+<br>
+<kbd><img src="./img/awsimg21.jpg" width="500"></kbd>
+<br>
+<kbd><img src="./img/awsimg22.jpg" width="500"></kbd>
+<br>
 
 - Attach the IAM just created to the instance.		
 	- Go to EC2 and instance > Right click > "instance settings" > "Attach/Replace IAM Role", and set the IAM Role to the EC2.	
 
-<kbd><img src="./img/awsimg23.jpg" width="500"></kbd><br>
+<kbd><img src="./img/awsimg23.jpg" width="500"></kbd>
+<br>
 
 <br>
 
@@ -273,6 +278,8 @@ The goal of this trick is to prepare a new instance with the following software 
 
 - Shiny Server
 
+<br>
+
 The following two pages are the references of this trick:
 
 - [AWS Big Data Blog - Running R on AWS](https://aws.amazon.com/blogs/big-data/running-r-on-aws/)
@@ -311,10 +318,13 @@ echo username:password | chpasswd
 
 <kbd><img src="./img/awsimg25.jpg" width="500"></kbd>
 
+<br>
 
 - At Step 6., set the accept the inbound port of Custom TCP Rule with ports 8787 and 3838.
 
 <kbd><img src="./img/awsimg26.jpg" width="500"></kbd>
+
+<br>
 
 - Initialization takes longer as it downloads the designated tools and does configurations.
 
