@@ -1,6 +1,6 @@
 This respository is to keep the records of AWS tricks told in the AWS class.
 
-<br><hr><br>
+<br>
 
 # Index:
 
@@ -32,7 +32,7 @@ No specific note for this process.
 
 Use the following command in the instance:
 
-```linux
+```command
 echo "[text content]" >>  [text file name].txt
 ```
 
