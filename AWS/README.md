@@ -2,7 +2,7 @@ This respository is to keep the records of AWS tricks told in the AWS class.
 
 <br>
 
-# Index:
+# Table of Contents
 
 - [First AWS Architecture with Public and Private Subnets](https://github.com/daydreamersjp/DataScienceTechInstitute/tree/master/AWS#in-class-lab-20190605-first-aws-architecture-with-public-and-private-subnets)
 - [Create a Text File in Linux Instance and Push to S3 Bucket](https://github.com/daydreamersjp/DataScienceTechInstitute/tree/master/AWS#in-class-lab-20190612-create-a-text-file-in-linux-instance-and-push-to-s3-bucket)
