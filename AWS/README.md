@@ -10,38 +10,7 @@ This respository is to keep the records of AWS tricks told in the AWS class.
 
 - [Install R, RServer, Shiny, and Shiny Server on New Instance at Time of Launch]()
 
-<br><hr><br>
 
-# In-class Lab (2019/06/12): Create a Text File in Linux Instance and Push to S3 Bucket
-
-## Goal of this trick
-
-The goal of this trick is to make a connection between instance and S3 bucket to exchange data from one to another.
-
-<br>
-
-## 1. Launch Linux Instance and Access 
-
-No specific note for this process.
-
-<img src="./img/awsimg17.jpg" width="500">
-
-<br>
-
-## 2. Create Text File in Linux Intance
-
-Use the following command in the instance:
-
-```command
-echo "[text content]" >>  [text file name].txt
-```
-
-
-
-
-
-
-<br><hr><br>
 
 # In-class Lab (2019/06/12): Install R, RServer, Shiny, and Shiny Server on New Instance at Time of Launch
 
@@ -203,4 +172,94 @@ Terminate all instances. Security Groups and VPC can be left undeleted as needed
 If Elastic IP associated to NAT #2 will not used in other instances, release it (no use elastic IP results in charge).
 
 <br>
+
+<br><hr><br>
+
+# In-class Lab (2019/06/12): Create a Text File in Linux Instance and Push to S3 Bucket
+
+## Goal of this trick
+
+The goal of this trick is to make a connection between instance and S3 bucket to exchange data from one to another.
+
+<br>
+
+## 1. Launch Linux Instance and Access 
+
+No specific note for this process.
+
+<img src="./img/awsimg17.jpg" width="500">
+
+<br>
+
+## 2. Create Text File in Linux Intance
+
+To create a new text file, use the following command in the instance:
+
+```command
+echo "[text content]" >>  [text file name].txt
+```
+
+<br>
+
+## 3. Check the Text File Was Correctly Created
+
+To check the content of the file, use the following command.
+```command
+cat [text file name].txt
+```
+
+<img src="./img/awsimg18.jpg" width="500">
+
+<br>
+
+## 4. Create S3 Bucket
+
+Go to S3 and click "Create Bucket" and generate a new bucket.
+
+<img src="./img/awsimg19.jpg" width="500">
+
+<br>
+
+## 5. Configure IAM and Allow Instance to Access S3 Bucket
+
+- Prepare IAM Role which allows EC2 instance to access S3.		
+	- Go to IAM > Roles > Choose EC2 as the service that will use > Choose "AmazonS3FullAccess"	
+
+<img src="./img/awsimg20.jpg" width="500"><br>
+<img src="./img/awsimg21.jpg" width="500"><br>
+<img src="./img/awsimg22.jpg" width="500"><br>
+
+- Attach the IAM just created to the instance.		
+	- Go to EC2 and instance > Right click > "instance settings" > "Attach/Replace IAM Role", and set the IAM Role to the EC2.	
+
+<img src="./img/awsimg23.jpg" width="500"><br>
+
+<br>
+
+## 6. Copy Text File Created to S3 Bucket
+
+- Run the following command line to copy your text file to S3 bucket.
+
+```command
+aws s3 cp ./[text file name].txt s3://[bucket-name]/
+```
+
+- Check the file is acutally in S3 bucket.
+
+<img src="./img/awsimg24.jpg" width="500">
+
+
+<br>
+
+## 7(Optional). Download File from S3
+
+To download a file back to the instance from S3, use the following command.
+
+```command
+aws s3 cp s3://[bucket-name]/[text file name].txt
+```
+
+
+
+<br><hr><br>
 
