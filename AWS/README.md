@@ -6,14 +6,9 @@ This respository is to keep the records of AWS tricks told in the AWS class.
 
 - [First AWS Architecture with Public and Private Subnets](https://github.com/daydreamersjp/DataScienceTechInstitute/tree/master/AWS#in-class-lab-20190605-first-aws-architecture-with-public-and-private-subnets)
 
-- [Create a Text File in Linux Instance and Push to S3 Bucket]()
+- [Create a Text File in Linux Instance and Push to S3 Bucket](https://github.com/daydreamersjp/DataScienceTechInstitute/tree/master/AWS#in-class-lab-20190612-create-a-text-file-in-linux-instance-and-push-to-s3-bucket)
 
-- [Install R, RServer, Shiny, and Shiny Server on New Instance at Time of Launch]()
-
-
-
-# In-class Lab (2019/06/12): Install R, RServer, Shiny, and Shiny Server on New Instance at Time of Launch
-
+- [Install R, RServer, Shiny, and Shiny Server on New Instance at Time of Launch](https://github.com/daydreamersjp/DataScienceTechInstitute/tree/master/AWS#in-class-lab-20190612-install-r-rserver-shiny-and-shiny-server-on-new-instance-at-time-of-launch)
 
 
 <br><hr><br>
@@ -187,7 +182,7 @@ The goal of this trick is to make a connection between instance and S3 bucket to
 
 No specific note for this process.
 
-<img src="./img/awsimg17.jpg" width="500">
+<kbd><img src="./img/awsimg17.jpg" width="500"></kbd>
 
 <br>
 
@@ -208,7 +203,7 @@ To check the content of the file, use the following command.
 cat [text file name].txt
 ```
 
-<img src="./img/awsimg18.jpg" width="500">
+<kbd><img src="./img/awsimg18.jpg" width="500"></kbd>
 
 <br>
 
@@ -216,7 +211,7 @@ cat [text file name].txt
 
 Go to S3 and click "Create Bucket" and generate a new bucket.
 
-<img src="./img/awsimg19.jpg" width="500">
+<kbd><img src="./img/awsimg19.jpg" width="500"></kbd>
 
 <br>
 
@@ -225,14 +220,14 @@ Go to S3 and click "Create Bucket" and generate a new bucket.
 - Prepare IAM Role which allows EC2 instance to access S3.		
 	- Go to IAM > Roles > Choose EC2 as the service that will use > Choose "AmazonS3FullAccess"	
 
-<img src="./img/awsimg20.jpg" width="500"><br>
-<img src="./img/awsimg21.jpg" width="500"><br>
-<img src="./img/awsimg22.jpg" width="500"><br>
+<kbd><img src="./img/awsimg20.jpg" width="500"></kbd><br>
+<kbd><img src="./img/awsimg21.jpg" width="500"></kbd><br>
+<kbd><img src="./img/awsimg22.jpg" width="500"></kbd><br>
 
 - Attach the IAM just created to the instance.		
 	- Go to EC2 and instance > Right click > "instance settings" > "Attach/Replace IAM Role", and set the IAM Role to the EC2.	
 
-<img src="./img/awsimg23.jpg" width="500"><br>
+<kbd><img src="./img/awsimg23.jpg" width="500"></kbd><br>
 
 <br>
 
@@ -246,7 +241,7 @@ aws s3 cp ./[text file name].txt s3://[bucket-name]/
 
 - Check the file is acutally in S3 bucket.
 
-<img src="./img/awsimg24.jpg" width="500">
+<kbd><img src="./img/awsimg24.jpg" width="500"></kbd>
 
 
 <br>
@@ -263,3 +258,100 @@ aws s3 cp s3://[bucket-name]/[text file name].txt
 
 <br><hr><br>
 
+
+# In-class Lab (2019/06/12): Install R, RServer, Shiny, and Shiny Server on New Instance at Time of Launch
+
+## Goal of this trick	
+
+The goal of this trick is to prepare a new instance with the following software installed at the time of instance.
+
+- R
+
+- RServer
+
+- Shiny
+
+- Shiny Server
+
+The following two pages are the references of this trick:
+
+- [AWS Big Data Blog - Running R on AWS](https://aws.amazon.com/blogs/big-data/running-r-on-aws/)
+- [Tutorial to install R Server and Shiny Server on AWS](https://github.com/leodsti/AWS_Tutorials/tree/master/Install%20R%20Server)
+
+<br>
+
+## 1. Launch Instance
+
+- Using the first Linux AMI did not work out for unknown reason. Use the second Linux AMI instead.
+
+- At Step 3., go to "Advance Details", copy the script below to download Rstudio server and Shiny server at launch.
+
+```command
+#!/bin/bash
+#install R
+yum install -y R
+
+#install RStudio-Server 1.0.153 (2017-07-20)
+wget https://download2.rstudio.org/rstudio-server-rhel-1.0.153-x86_64.rpm
+yum install -y --nogpgcheck rstudio-server-rhel-1.0.153-x86_64.rpm
+rm rstudio-server-rhel-1.0.153-x86_64.rpm
+
+#install shiny and shiny-server (2017-08-25)
+R -e "install.packages('shiny', repos='http://cran.rstudio.com/')"
+wget https://download3.rstudio.org/centos5.9/x86_64/shiny-server-1.5.4.869-rh5-x86_64.rpm
+yum install -y --nogpgcheck shiny-server-1.5.4.869-rh5-x86_64.rpm
+rm shiny-server-1.5.4.869-rh5-x86_64.rpm
+
+#add user(s)
+useradd username
+echo username:password | chpasswd 
+```
+
+<br>
+
+<kbd><img src="./img/awsimg25.jpg" width="500"></kbd>
+
+
+- At Step 6., set the accept the inbound port of Custom TCP Rule with ports 8787 and 3838.
+
+<kbd><img src="./img/awsimg26.jpg" width="500"></kbd>
+
+- Initialization takes longer as it downloads the designated tools and does configurations.
+
+
+<br>
+
+# 2. Connect to Instance and Do Final Configuration
+
+After launch and connection to the instance, run the following three command lines.
+
+```command
+mkdir ~/ShinyApps 
+sudo /opt/shiny-server/bin/deploy-example user-dirs 
+cp -R /opt/shiny-server/samples/sample-apps/hello ~/ShinyApps/
+```
+
+<br>
+
+# 3. Check If You Can Access to RServer and Shiny Server.
+
+- Check your access to RServer from web browser. Address is:
+
+```
+http://[Public IP of the instance]:3838/ec2-user/hello/
+```
+
+- The site asks the credentials. User name and Password are:
+	- User name: username
+	- Password: password
+
+- Do not forget to check "Stay signed in", otherwise you may have an error.
+
+
+- Check your access to Shiny Server from web browser. Address is:
+
+```
+http://[Public IP of the instance]:3838/ec2-user/hello/
+```
+
+<br><hr><br>
