@@ -1,3 +1,10 @@
+
+
+
+![First AWS Architecture with Public and Private Subnets](https://github.com/daydreamersjp/DataScienceTechInstitute/tree/master/AWS#in-class-lab-20190605-first-aws-architecture-with-public-and-private-subnets)
+
+
+
 # In-class Lab (2019/06/05): First AWS Architecture with Public and Private Subnets
 
 ## Goal of this README	
