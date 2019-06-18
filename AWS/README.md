@@ -348,6 +348,11 @@ cp -R /opt/shiny-server/samples/sample-apps/hello ~/ShinyApps/
 
 <br>
 
+<kbd><img src="./img/awsimg27.jpg" width="500"></kbd>
+
+
+<br>
+
 # 3. Check If You Can Access to RServer and Shiny Server.
 
 - Check your access to RServer from web browser. Address is:
@@ -362,11 +367,24 @@ http://[Public IP of the instance]:3838/ec2-user/hello/
 
 - Do not forget to check "Stay signed in", otherwise you may have an error.
 
+<br>
+
+<kbd><img src="./img/awsimg28.jpg" width="500"></kbd>
+
+<br>
+
+<kbd><img src="./img/awsimg29.jpg" width="500"></kbd>
+
+<br>
 
 - Check your access to Shiny Server from web browser. Address is:
 
 ```
 http://[Public IP of the instance]:3838/ec2-user/hello/
 ```
+
+<br>
+
+<kbd><img src="./img/awsimg30.jpg" width="500"></kbd>
 
 <br><hr><br>
