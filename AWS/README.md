@@ -1,15 +1,59 @@
+This respository is to keep the records of AWS tricks told in the AWS class.
+
+<br><hr><br>
+
+Index:
+
+- [First AWS Architecture with Public and Private Subnets](https://github.com/daydreamersjp/DataScienceTechInstitute/tree/master/AWS#in-class-lab-20190605-first-aws-architecture-with-public-and-private-subnets)
+
+- [Create a Text File in Linux Instance and Push to S3 Bucket]()
+
+- [Install R, RServer, Shiny, and Shiny Server on New Instance at Time of Launch]()
+
+<br><hr><br>
+
+# In-class Lab (2019/06/12): Create a Text File in Linux Instance and Push to S3 Bucket
+
+## Goal of this trick
+
+The goal of this trick is to make a connection between instance and S3 bucket to exchange data from one to another.
+
+<br>
+
+## 1. Launch Linux Instance and Access 
+
+No specific note for this process.
+
+<img src="./img/awsimg17.jpg" width="500">
+
+<br>
+
+## 2. Create Text File in Linux Intance
+
+Use the following command in the instance:
+
+```
+echo "[text content]" >>  [text file name].txt
+```
 
 
 
-![First AWS Architecture with Public and Private Subnets](https://github.com/daydreamersjp/DataScienceTechInstitute/tree/master/AWS#in-class-lab-20190605-first-aws-architecture-with-public-and-private-subnets)
 
 
+
+<br><hr><br>
+
+# In-class Lab (2019/06/12): Install R, RServer, Shiny, and Shiny Server on New Instance at Time of Launch
+
+
+
+<br><hr><br>
 
 # In-class Lab (2019/06/05): First AWS Architecture with Public and Private Subnets
 
-## Goal of this README	
+## Goal of this trick	
 
-This README's goal is to show the process to construct AWS environment in the configuration below.
+The goal of this trick is to show the process to construct AWS environment in the configuration below.
 
 <img src="./img/awsimg1_2.jpg" width="501">
 
