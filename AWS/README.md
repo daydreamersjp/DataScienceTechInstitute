@@ -23,8 +23,8 @@ The goal of this trick is to show the process to construct AWS environment in th
 
 <br>
 
-## 1. Prepare Key Pairs							
-Create Key Pairs to be used in the architecture.						
+## 1. Prepare Key Pairs	for NAT						
+Create Key Pairs to be used by NAT.						
 
 <kbd><img src="./img/awsimg2.jpg" width="500" border="black"></kbd>
 			
