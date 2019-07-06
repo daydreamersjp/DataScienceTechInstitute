@@ -1,11 +1,32 @@
 # Statistical Analysis of Massive and High Dimensional Data
 
-[The RStudio Lab Teacher Created in the Class](https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/MassiveAndHighDimensionalData/Class%20Lab.html)
+[The RStudio Lab Teacher Created in the Class](https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/MassiveAndHighDimensionalData/Final_Class_Lab.html)
 
 [The Exam #2 I Submitted for Final Assessment](https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/MassiveAndHighDimensionalData/Statistical%20Analysis%20of%20Massive%20and%20High%20Dimensional%20Data_Exam2.nb.html)
 
+## Contents of In-class Lab
 
-## The Contents of Exam #2
+- Descriptive analysis of iris data
+
+- k-means using swiss data
+
+- Hierarchical clustering using swiss data
+
+- Gaussian Mixture Model (GMM) by EM algorithm using swiss data
+
+- PCA using swiss data
+
+- Multi-dimensional Scaling (MDS) using swiss data
+
+- Curse of dimensionality
+
+- High Dimensional Data Clustering (HDDC) using usps358 data
+
+- Fisher EM using usps358 data
+
+<br><hr><br>
+
+## Contents of Exam #2
 
 - 1 Exercise 1: general questions
 
