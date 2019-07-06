@@ -1,8 +1,11 @@
 # Statistical Analysis of Massive and High Dimensional Data
 
-![The RStudio Lab Teacher Created in the Class](https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/MassiveAndHighDimensionalData/Class%20Lab.html)
+[The RStudio Lab Teacher Created in the Class](https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/MassiveAndHighDimensionalData/Class%20Lab.html)
 
-![The Exam #2 I Submitted for Final Assessment](https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/MassiveAndHighDimensionalData/Statistical%20Analysis%20of%20Massive%20and%20High%20Dimensional%20Data_Exam2.nb.html)
+[The Exam #2 I Submitted for Final Assessment](https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/MassiveAndHighDimensionalData/Statistical%20Analysis%20of%20Massive%20and%20High%20Dimensional%20Data_Exam2.nb.html)
+
+
+## The Contents of Exam 2
 
 - 1 Exercise 1: general questions
 
@@ -35,6 +38,7 @@ Use PCA to visualize the data. Choose the number of PCA axes to retain for the v
 
 Apply the hierarchical clustering with appropriate distance, choose the right number of cluster and comment the results. A map of the results may be obtained using the GPS coordinates of the stations, thanks to the leaflet package:
 
+
 ```
 palette = colorFactor("RdYlBu", domain = NULL)
 leaflet(X) %>% addTiles() %>%
@@ -43,7 +47,8 @@ color = palette(clusters),
 stroke = FALSE, fillOpacity = 0.9)
 ```
 
-    - 2.4.2 k-means
+
+   - 2.4.2 k-means
     
 Apply now the k-means clustering on the same data. Choose also the right number of clusters using the appropriate technique. Comment and compare with the result obtained with the hierarchical clustering.
 
