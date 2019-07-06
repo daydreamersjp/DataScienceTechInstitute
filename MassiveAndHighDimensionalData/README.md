@@ -57,6 +57,7 @@ stroke = FALSE, fillOpacity = 0.9)
 
 <br>
 
+  -
     - 2.4.2 k-means
     
 Apply now the k-means clustering on the same data. Choose also the right number of clusters using the appropriate technique. Comment and compare with the result obtained with the hierarchical clustering.
