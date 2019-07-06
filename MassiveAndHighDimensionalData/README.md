@@ -5,7 +5,7 @@
 [The Exam #2 I Submitted for Final Assessment](https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/MassiveAndHighDimensionalData/Statistical%20Analysis%20of%20Massive%20and%20High%20Dimensional%20Data_Exam2.nb.html)
 
 
-## The Contents of Exam 2
+## The Contents of Exam #2
 
 - 1 Exercise 1: general questions
 
