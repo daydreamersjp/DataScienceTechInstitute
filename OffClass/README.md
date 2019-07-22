@@ -24,7 +24,7 @@
   
   - [1. DP - Study Dissecting RL Blog Posts.ipynb](https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/OffClass/1.%20DP%20-%20Study%20Dissecting%20RL%20Blog%20Posts.ipynb)
     
-    The optimal policy finding when we know the model of system.
+    The optimal policy finding when we know the environment as MDP (Morkov Decision Process).
     - Bellman Optimality Equation
     - Value Iteration
     - Policy Evaluation + Policy Iteration
