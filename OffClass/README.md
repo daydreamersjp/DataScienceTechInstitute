@@ -6,17 +6,15 @@
 
   This post includes the python coding for the algorithm discussed in "Data Science Distilled". This includes: 
     
-    - Selecetion Sort
-    - Merge Sort
-    - Power Set Generation
-    - Back Track Approach
-    - Knapsack Problem by Following Approaches:
-      - Greedy
-      - Divide And Conquer
-      - Dynamic Programming
-      - Branch And Bound
-
-  - Due to the file size, this file is visualizable correctly only after download to local environment.
+  - Selecetion Sort
+  - Merge Sort
+  - Power Set Generation
+  - Back Track Approach
+  - Knapsack Problem by Following Approaches:
+    - Greedy
+    - Divide And Conquer
+    - Dynamic Programming
+    - Branch And Bound
 
 <br><hr><br>
 
