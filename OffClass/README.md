@@ -1,4 +1,19 @@
+# Codes in Off-Class Personal Learning 
+
 - [Python Implementation of "Data Science Distilled"](https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/OffClass/Summary%20of%20Computer%20Science%20Distilled.ipynb)
+
+  This post includes the python coding for the algorithm discussed in "Data Science Distilled". This includes: 
+    
+    - Selecetion Sort
+    - Merge Sort
+    - Power Set Generation
+    - Back Track Approach
+    - Knapsack Problem by Following Approaches:
+      - Greedy
+      - Divide And Conquer
+      - Dynamic Programming
+      - Branch And Bound
+
   - Due to the file size, this file is visualizable correctly only after download to local environment.
 
 <br><hr><br>
