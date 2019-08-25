@@ -4,4 +4,4 @@
 
 ## 1. Connecting SQL Database
 
-After importing 'pyodbc' by 'import pyodbc', 
+After importing `pyodbc` by `import pyodbc`, 
