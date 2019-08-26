@@ -22,4 +22,6 @@ customersDf = pd.read_sql(sqlGetCustomers,conn)
 ```
 
 
-Here, 
+Here, the parameter of pyodbc is what you change according to your database configuration. 
+
+- DRIVER: 
