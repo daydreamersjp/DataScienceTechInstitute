@@ -4,7 +4,7 @@
 
 ## 1. Connecting SQL Database
 
-After importing pyodbc library by `import pyodbc`, `pyodbc.connect(...)` will give you an access to SQL data base. Here's a sample code to kick off SQL query and get all records with all columns from `dbo.Customer` as a pandas dataframe object.
+After importing pyodbc library by `import pyodbc`, `pyodbc.connect(...)` will give you an access to SQL data base. Here's a sample code to kick off SQL query and get all records with all columns from `dbo.Customer` as a pandas dataframe object `customerDf`.
 
 
 ```python
@@ -20,3 +20,6 @@ cursor.execute(sqlGetCustomers)
 customersData = cursor.fetchall()
 customersDf = pd.read_sql(sqlGetCustomers,conn)
 ```
+
+
+Here, 
