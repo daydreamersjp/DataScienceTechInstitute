@@ -32,7 +32,7 @@ To know your `DRIVER` on Windows, go to Control Panel > System and Security > Ad
 
 <br>
 
-![](https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/DataWrangling/MiniProject/ODBC%20Data%20Source%20Administrator.jpg)
+<img src="https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/DataWrangling/MiniProject/ODBC%20Data%20Source%20Administrator.jpg" width="200">
 
 <br>
 
