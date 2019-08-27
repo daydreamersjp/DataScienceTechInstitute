@@ -19,9 +19,74 @@ customersData = cursor.fetchall()
 customersDf = pd.read_sql(sqlGetCustomers,conn)
 ```
 
+<br>
 
 Here, the parameter of pyodbc is what you need to change according to your database configuration. You see what your `SERVER` and `DATABASE` are when you launch SQL database. 
 
-To know your `DRIVER`, on Windows, go to Control Panel > System and Security > Administrative Tools > ODBC Data Sources.
+<br>
 
-![](https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/DataWrangling/MiniProject/ODBC%20Data%20Source%20Administrator.jpg)
+To know your `DRIVER` on Windows, go to Control Panel > System and Security > Administrative Tools > ODBC Data Sources, and then you can find your ODBC driver on Drivers tab.
+
+<br>
+
+![](https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/DataWrangling/MiniProject/ODBC%20Data%20Source%20Administrator.jpg | width=200)
+
+<br>
+
+List of ODBC drivers is also available through pyodbc command on Python. ```pyodbc.drivers()``` gives you a list of ODBC drivers such as ```['SQL Server',
+ 'MySQL ODBC 8.0 ANSI Driver',
+ 'MySQL ODBC 8.0 Unicode Driver',
+ 'ODBC Driver 13 for SQL Server',
+ 'SQL Server Native Client 11.0',
+ 'SQL Server Native Client RDA 11.0',
+ 'ODBC Driver 17 for SQL Server']```
+ on my PC.
+
+<br>
+
+Now, you can have a pandas dataframe having data of your SQL database table. It is your time to show your pandas data wrangling skill. Here's some example to get the customer list who bought every product.
+
+```python
+import pyodbc
+import pandas as pd
+from pandas import merge
+
+conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=LAPTOP-A3NFG0UM;DATABASE=S19SQLPlayground_Seb;Trusted_Connection=yes;')
+cursor = conn.cursor()
+
+# Import tables to pandas Dataframe
+sqlGetCustomers = "SELECT * FROM dbo.Customer;";
+cursor.execute(sqlGetCustomers)
+customersData = cursor.fetchall()
+customersDf = pd.read_sql(sqlGetCustomers,conn)
+
+sqlGetProducts = "SELECT * FROM dbo.Product;";
+cursor.execute(sqlGetProducts)
+productsData = cursor.fetchall()
+productsDf = pd.read_sql(sqlGetProducts,conn)
+
+sqlGetPurchases = "SELECT * FROM dbo.Purchase;";
+cursor.execute(sqlGetPurchases)
+purchasesData = cursor.fetchall()
+purchasesDf = pd.read_sql(sqlGetPurchases,conn)
+
+conn.close()
+
+# Create Cartesian Product for CustomerId and ProductId
+customersDf["key"] = 1; productsDf["key"]=1
+custprodCartesianDf = merge(customersDf,productsDf,on='key')[['CustomerId', 'ProductId']]
+
+# Column 'Purchased' on custprodCartesianDf is True when the CustomerId purchased the ProductId, based on PurchasesDf.
+custprodCartesianDf['Purchased'] = custprodCartesianDf.apply(tuple, 1).isin(purchasesDf[['CustomerId', 'ProductId']].apply(tuple, 1))
+
+# Column 'NotPurchasedAll' on customersDf is True when the CustomerId does not purchase all products recorded in ProductsDf.
+customersDf['NotPurchasedAll'] = customersDf[['CustomerId']].isin(custprodCartesianDf.query('Purchased==False')[['CustomerId']].values.ravel())
+
+# Return pandas DataFrame with CustomerId who purchased all products.
+customersDf.query('NotPurchasedAll==False')[['CustomerId']].reindex()
+```
+
+<br>
+
+[Jupyter Notebook version](https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/DataWrangling/MiniProject/Mini%20project.ipynb) here.
+
