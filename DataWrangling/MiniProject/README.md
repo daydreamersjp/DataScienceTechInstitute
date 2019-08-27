@@ -22,6 +22,8 @@ customersDf = pd.read_sql(sqlGetCustomers,conn)
 
 <br>
 
+## Parameters of pyodbc
+
 Here, the parameter of pyodbc is what you need to change according to your database configuration. You see what your `SERVER` and `DATABASE` are when you launch SQL database. 
 
 <br>
@@ -30,7 +32,7 @@ To know your `DRIVER` on Windows, go to Control Panel > System and Security > Ad
 
 <br>
 
-![t](https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/DataWrangling/MiniProject/ODBC%20Data%20Source%20Administrator.jpg | width=200)
+![](https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/DataWrangling/MiniProject/ODBC%20Data%20Source%20Administrator.jpg)
 
 <br>
 
