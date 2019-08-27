@@ -32,7 +32,7 @@ To know your `DRIVER` on Windows, go to Control Panel > System and Security > Ad
 
 <br>
 
-<img src="https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/DataWrangling/MiniProject/ODBC%20Data%20Source%20Administrator.jpg" width="200">
+<img src="https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/DataWrangling/MiniProject/ODBC%20Data%20Source%20Administrator.jpg" width="400">
 
 <br>
 
@@ -46,6 +46,8 @@ List of ODBC drivers is also available through pyodbc command on Python. ```pyod
  on my PC.
 
 <br>
+
+
 
 ## Playing Around on Python as You Do Everyday
 
@@ -97,3 +99,31 @@ customersDf.query('NotPurchasedAll==False')[['CustomerId']].reindex()
 
 [Jupyter Notebook version](https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/DataWrangling/MiniProject/Mini%20project.ipynb) here.
 
+<br>
+
+## Pulling Customer List Who Purchased All Products Is Easier in SQL Query
+
+By the way, the example case such as pulling customers who purchased the all products based on product list and purchase history records is not necessarily easy on pandas wrangling, but is on SQL if you use ```WHERE NOT EXISTS```. 
+
+Here's how to do in SQL query.
+
+```query
+SELECT x.*
+FROM (
+	SELECT *
+	FROM dbo.Customer as a
+	WHERE NOT EXISTS(
+		SELECT *
+		FROM dbo.Product as b
+		WHERE NOT EXISTS
+		(
+			SELECT *
+			FROM
+				dbo.Purchase as c
+				WHERE
+				c.CustomerId = a.CustomerId AND
+				c.ProductId = b.ProductId
+		)
+	)
+) AS x
+```
