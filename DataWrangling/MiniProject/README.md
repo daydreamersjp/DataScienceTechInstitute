@@ -49,7 +49,7 @@ List of ODBC drivers is also available through pyodbc command on Python. ```pyod
 
 
 
-## Playing Around on Python as You Do Everyday
+## Time to Play Around with Pandas Datafram
 
 Now, you can have a pandas dataframe having data of your SQL database table. It is your time to show your pandas data wrangling skill. Here's some example to get the customer list who bought every product.
 
@@ -107,7 +107,7 @@ By the way, the example case such as pulling customers who purchased the all pro
 
 Here's how to do in SQL query.
 
-```query
+```sql
 SELECT x.*
 FROM (
 	SELECT *
