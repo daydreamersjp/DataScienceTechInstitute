@@ -2,6 +2,7 @@
 
 <br>
 
+## Connecting to SQL Server and Getting a Table
 After importing pyodbc library by `import pyodbc`, `pyodbc.connect(...)` will give you an access to SQL data base. Here's a sample code to kick off SQL query and get all records with all columns from `dbo.Customer` to a pandas dataframe object `customerDf`.
 
 
@@ -29,7 +30,7 @@ To know your `DRIVER` on Windows, go to Control Panel > System and Security > Ad
 
 <br>
 
-![](https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/DataWrangling/MiniProject/ODBC%20Data%20Source%20Administrator.jpg | width=200)
+![t](https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/DataWrangling/MiniProject/ODBC%20Data%20Source%20Administrator.jpg | width=200)
 
 <br>
 
@@ -44,7 +45,11 @@ List of ODBC drivers is also available through pyodbc command on Python. ```pyod
 
 <br>
 
+## Playing Around on Python as You Do Everyday
+
 Now, you can have a pandas dataframe having data of your SQL database table. It is your time to show your pandas data wrangling skill. Here's some example to get the customer list who bought every product.
+
+<br>
 
 ```python
 import pyodbc
