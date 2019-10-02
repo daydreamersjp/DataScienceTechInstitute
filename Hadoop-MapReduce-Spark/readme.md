@@ -13,7 +13,7 @@ Contact hadoop cluster manager and get the authorization.
 <br>
 
 ### Step 2. Download a file from internet
-Here as an illustration, I will download a most downloaded file from Gutenberg Project, which is "Beowulf: An Anglo-Saxon Epic Poem by J. Lesslie Hall" !(https://www.gutenberg.org/ebooks/16328).
+Here as an illustration, I will download a most downloaded file from Gutenberg Project, which is "Beowulf: An Anglo-Saxon Epic Poem by J. Lesslie Hall" (https://www.gutenberg.org/ebooks/16328).
 
 <br>
 
@@ -94,7 +94,7 @@ hdfs dfs -cat iput.txt > local.txt
 
 <br><br>
 
-Here're the basic HDFS commands with quick actual file manupulation examples. ![This cheatsheet](http://images.linoxide.com/hadoop-hdfs-commands-cheatsheet.pdf) would also help.
+Here're the basic HDFS commands with quick actual file manupulation examples. [This cheatsheet](http://images.linoxide.com/hadoop-hdfs-commands-cheatsheet.pdf) would also help.
 
 <br><br>
 
