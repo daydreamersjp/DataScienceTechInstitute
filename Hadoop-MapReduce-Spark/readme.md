@@ -210,7 +210,8 @@ cat pg16328.txt | <full path to>/map.py | <full path to>/reduce.py | sort -k2 -n
 <br>
 
 Now I will get results like this:
-![](MapReduceExample_wordcount.JPG)
+
+<img src="MapReduceExample_wordcount.JPG" width=100>
 
 
 <br>
