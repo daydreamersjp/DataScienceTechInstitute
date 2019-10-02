@@ -121,6 +121,8 @@ After finding the file use `yarn jar` command to run the program; this time I ch
 yarn jar <path to>/hadoop-mapreduce/hadoop-mapreduce-examples.jar pi 10 100
 ```
 
+<br>
+
 Successful submission will give you one Pi=3.141592....-like value in the end.
 
 <br>
@@ -196,15 +198,19 @@ for w,c in sorted(res.items(), key=lambda (k,v): v):
 Note that two .py files need to be uploaded to the Edge computer.
 Then, the full Linux command to run this will be:
 
+<br>
+
 ```command
 chmod 777 map.py
 chmod 777 reduce.py
 
-cat pg16328.txt | <full path to>/map.py | sort -k1 | <full path to>/reduce.py | sort -k2 -n
+cat pg16328.txt | <full path to>/map.py | <full path to>/reduce.py | sort -k2 -n
 ```
 
-Now I will get results like this:
+<br>
 
+Now I will get results like this:
+![](MapReduceExample_wordcount.JPG)
 
 
 <br>
@@ -227,5 +233,4 @@ hdfs dfs -cat <full path to home>/part-00000 | sort -k2 -n
 And I will get the same results as we see in Linux standalone one.
 
 <hr>
-```
   
