@@ -105,7 +105,11 @@ Here're the basic HDFS commands with quick actual file manupulation examples. [T
 ## 2. MapReduce Examples
 I will demonstrate how we can use MapReduce on Hadoop environment, using `yarn` command.
 
+<br>
+
 ### Example 1. "Hello World"-ish example
+
+<br>
 
 Somewhere in hadoop edge, there's a file for MapReduce example named "hadoop-mapreduce-examples-<version number>.jar" or just "hadoop-mapreduce-examples.jar". Our first task is to locate the file.
   
@@ -129,11 +133,15 @@ Successful submission will give you one Pi=3.141592....-like value in the end.
 
 ### Example 2. Count words in a text file 
 
+<br>
+
 Now we are more ambitious. Using the pg16328.txt, downloaded above from Gutenberg Project (https://www.gutenberg.org/ebooks/16328), I will 1) split the text into words, 2) count frequencies of words, and 3) display by order of frequncies.
 
 Using piping of Linux command, the command would be like `cat pg16328.txt | <exectable to clean and split the text into words> | <excutable to count frequencies of words> | sort -k2 -n`. Here `sort -k2 -n` will sort the results by the second column of results in number and display on command prompt.
 
 If I use python scripts for the exectable portions, the following two python script files to be prepared in advance.
+
+<br>
 
 map.py - Receive lines of text and return the tuples of (word, 1) for each word encountered. 
 ```python
@@ -211,7 +219,7 @@ cat pg16328.txt | <full path to>/map.py | <full path to>/reduce.py | sort -k2 -n
 
 Now I will get results like this:
 
-<img src="MapReduceExample_wordcount.JPG" width=100>
+<img src="MapReduceExample_wordcount.JPG" width=200>
 
 
 <br>
