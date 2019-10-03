@@ -3,6 +3,8 @@
 
 [2. MapReduce Examples](https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/Hadoop-MapReduce-Spark/readme.md#2-MapReduce-Examples)
 
+[3. Launching Hive and create external/internal tables](https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/Hadoop-MapReduce-Spark/readme.md#3-launching-hive-and-create-externalinternal-tables)
+
 
 <br>
 
