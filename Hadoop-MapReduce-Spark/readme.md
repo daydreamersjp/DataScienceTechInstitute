@@ -244,6 +244,80 @@ hdfs dfs -cat <full path to home>/part-00000 | sort -k2 -n
 ```
 
 And I will get the same results as we see in Linux standalone one.
+  
+<br><br>
+
+## 3. Launching Hive and create external/internal tables
+
+<br>
+
+### 1. Getting ready for Beeline (command line interface to Hive)
+
+<br>
+
+Beeline is a command line interface support service to Hive. To launch, just run the following command on Edge.
+
+```command
+beeline -u "jdbc:hive2://<cloud path>:2181,zoo-3.<clound path>:2181/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2;" --showDbInPrompt=true
+```
+<br>
+ 
+Now the command line expects the SQL query. SQL query is more MySQL than SQL Server, and every statement should end with semi-colon ';'.
+
+<br>
+
+```sql
+ use <database>;
+```
+
+<br>
+
+Next, we will see how to create tables in Hive. Hive can have two types of tables: external table and internal table. 
+
+Based on [this post](https://stackoverflow.com/questions/17038414/difference-between-hive-internal-tables-and-external-tables), the difference is:
+
+- Use EXTERNAL tables when:
+	- The data is also used outside of Hive. For example, the data files are read and processed by an existing program that doesn’t lock the files.
+	- Data needs to remain in the underlying location even after a DROP TABLE. This can apply if you are pointing multiple schema (tables or views) at a single data set or if you are iterating through various possible schema.
+	- Hive should not own data and control settings, directories, etc., you may have another program or process that will do those things.
+	- You are not creating table based on existing table (AS SELECT).
+
+
+- Use INTERNAL tables when:
+	-The data is temporary.
+	- You want Hive to completely manage the life-cycle of the table and data.
+
+<br>
+
+### 2. Create an external table
+
+<br>
+
+External table is created by `CREATE EXTERNAL TABLE` command as such:
+
+```sql
+CREATE EXTERNAL TABLE IF NOT EXISTS motoharu_drivers ( driverId INT, name STRING, ssn STRING, location STRING, wagePlan STRING)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ',' 
+LOCATION '<directory path with flat file>'
+TBLPROPERTIES ("skip.header.line.count"="1") ;
+```
+
+<br>
+
+### 3. Create an internal table
+
+<br>
+
+Here's how to create an internal table from the external table just created.
+
+```sql
+CREATE TABLE IF NOT EXISTS motoharu_drivers_in ( driverId INT, name STRING, ssn STRING, location STRING, wagePlan STRING) 
+STORED AS ORC;
+
+INSERT INTO motoharu_drivers_in SELECT * FROM motoharu_drivers;
+```
+
+<br>
 
 <hr>
-  
