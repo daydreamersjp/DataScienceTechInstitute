@@ -131,7 +131,7 @@ yarn jar <path to>/hadoop-mapreduce/hadoop-mapreduce-examples.jar pi 10 100
 
 <br>
 
-Successful submission will give you one Pi=3.141592....-like value in the end.
+Successful submission will give you one Pi=3.141592....-like (but not exactly due to the few number of simulations) value in the end.
 
 <br>
 
