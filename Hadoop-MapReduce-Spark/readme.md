@@ -279,6 +279,7 @@ Next, we will see how to create tables in Hive. Hive can have two types of table
 Based on [this post](https://stackoverflow.com/questions/17038414/difference-between-hive-internal-tables-and-external-tables), the difference is:
 
 - Use EXTERNAL tables when:
+
 	- The data is also used outside of Hive. For example, the data files are read and processed by an existing program that doesn’t lock the files.
 	- Data needs to remain in the underlying location even after a DROP TABLE. This can apply if you are pointing multiple schema (tables or views) at a single data set or if you are iterating through various possible schema.
 	- Hive should not own data and control settings, directories, etc., you may have another program or process that will do those things.
@@ -286,6 +287,7 @@ Based on [this post](https://stackoverflow.com/questions/17038414/difference-bet
 
 
 - Use INTERNAL tables when:
+
 	-The data is temporary.
 	- You want Hive to completely manage the life-cycle of the table and data.
 
