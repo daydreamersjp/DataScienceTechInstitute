@@ -484,6 +484,8 @@ for name, url in url.items():
                         header="true")
 ```
 
+<br>
+
 As a code example, here's how to get top 5 movies directed by Quentin Tarantino.
 
 ```python
@@ -491,7 +493,7 @@ As a code example, here's how to get top 5 movies directed by Quentin Tarantino.
 from pyspark.sql import functions as F
 
 df_crew_exp = df_crew.withColumn('exp_ndir', 
-                                 F.split(df_crew.directors, ',').cast('array<string>')) \   # split on "," cast to Spark array of string
+                                 F.split(df_crew.directors, ',').cast('array<string>')) \   
                      .select(df_crew.tconst, F.explode('exp_ndir').alias('ndir'))
 
 df_title.join(df_ratings, df_ratings.tconst == df_title.tconst) \
@@ -504,6 +506,8 @@ df_title.join(df_ratings, df_ratings.tconst == df_title.tconst) \
         .show(5)
 
 ```
+
+<br>
 
 And you will get:
 
