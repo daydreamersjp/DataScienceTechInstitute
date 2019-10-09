@@ -463,7 +463,7 @@ The following is a list of the common pySpark functions to handle RDD.
 
 <br>
 
-pySpark SQL is a way to handle RDD by SQL-like query through dataframe. 
+pySpark SQL is a way to handle RDD by pandas-like (not SQL-like) query through dataframe, contrary to what its name indicates.
 
 <br>
 
