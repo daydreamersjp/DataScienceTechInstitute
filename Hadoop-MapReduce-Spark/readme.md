@@ -9,6 +9,7 @@
 
 [5. HBase](https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/Hadoop-MapReduce-Spark/readme.md#5-hbase)
 
+[6. Spark RDD handling with pySpark](https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/Hadoop-MapReduce-Spark/readme.md#6-spark-rdd-handling-with-pyspark)
 
 <br>
 
@@ -454,7 +455,65 @@ The following is a list of the common pySpark functions to handle RDD.
 	<li>count()</li>
 </ul>
 
+<br><br>
 
+## 7. Spark Dataframe handling with pySpark SQL
+
+<br>
+
+pySpark SQL is a way to handle RDD by SQL-like query through dataframe. 
+
+<br>
+
+First, turn RDD to pySpark dataframe on Zeppelin. It is using [IMDB data set](https://www.imdb.com/interfaces/) about movies. 
+
+```python
+%spark2.pyspark
+url={"df_title": "/tmp/imdb/title.basics.tsv",
+ "df_ratings":"/tmp/imdb/title.ratings.tsv",
+ "df_crew": "/tmp/imdb/title.crew.tsv",
+ "df_name":"/tmp/imdb/name.basics.tsv"}
+
+for name, url in url.items():
+    globals()[name] = spark.read.load(url,
+                        format="csv",
+                        sep="\t",
+                        inferSchema="true",
+                        header="true")
+```
+
+As a code example, here's how to get top 5 movies directed by Quentin Tarantino.
+
+```python
+%spark2.pyspark
+from pyspark.sql import functions as F
+
+df_crew_exp = df_crew.withColumn('exp_ndir', 
+                                 F.split(df_crew.directors, ',').cast('array<string>')) \   # split on "," cast to Spark array of string
+                     .select(df_crew.tconst, F.explode('exp_ndir').alias('ndir'))
+
+df_title.join(df_ratings, df_ratings.tconst == df_title.tconst) \
+        .join(df_crew_exp, df_crew_exp.tconst == df_title.tconst) \
+        .join(df_name, df_name.nconst == df_crew_exp.ndir) \
+        .select(df_name.primaryName, df_title.primaryTitle, df_ratings.averageRating) \
+        .filter(df_name.primaryName == 'Quentin Tarantino') \
+        .filter(df_title.titleType == 'movie') \
+        .orderBy(df_ratings.averageRating.desc()) \
+        .show(5)
+
++-------------+--------------------+
+|averageRating|        primaryTitle|
++-------------+--------------------+
+|          8.9|        Pulp Fiction|
+|          8.8|Kill Bill: The Wh...|
+|          8.4|    Django Unchained|
+|          8.3|      Reservoir Dogs|
+|          8.1|   Kill Bill: Vol. 1|
++-------------+--------------------+
+
+```
+
+<br>
 
 
 <br>
