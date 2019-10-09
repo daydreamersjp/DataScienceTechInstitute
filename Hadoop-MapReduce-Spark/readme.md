@@ -11,6 +11,8 @@
 
 [6. Spark RDD handling with pySpark](https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/Hadoop-MapReduce-Spark/readme.md#6-spark-rdd-handling-with-pyspark)
 
+[7. Spark Dataframe handling with pySpark SQL](https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/Hadoop-MapReduce-Spark/readme.md#7-Spark-Dataframe-handling-with-pySpark-SQL)
+
 <br>
 
 ## 1. Playing with HDFS
@@ -501,6 +503,11 @@ df_title.join(df_ratings, df_ratings.tconst == df_title.tconst) \
         .orderBy(df_ratings.averageRating.desc()) \
         .show(5)
 
+```
+
+And you will get:
+
+```
 +-------------+--------------------+
 |averageRating|        primaryTitle|
 +-------------+--------------------+
