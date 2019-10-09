@@ -330,7 +330,7 @@ INSERT INTO motoharu_drivers_in SELECT * FROM motoharu_drivers;
 
 <br>
 
-Running MapReduce tasks or Hive tasks will not necessary end successfully in the end, and in case of failure the task will remain as a zombie runtime and cause negative impact to the future tasks. To avoid, it is recommended to kill unnecessary tasks periodically.
+Running MapReduce tasks or Hive tasks will not necessarily end successfully. In case of failure the task will remain as a zombie runtime and cause negative impact to the future tasks. To avoid, it is recommended to kill unnecessary tasks periodically.
 
 To kill application tasks, first run:
 
