@@ -5,6 +5,8 @@
 
 [3. Launching Hive and create external/internal tables](https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/Hadoop-MapReduce-Spark/readme.md#3-launching-hive-and-create-externalinternal-tables)
 
+[4. Killing YARN tasks](https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/Hadoop-MapReduce-Spark/readme.md#4-killing-yarn-tasks)
+
 
 <br>
 
@@ -320,6 +322,28 @@ CREATE TABLE IF NOT EXISTS motoharu_drivers_in ( driverId INT, name STRING, ssn 
 STORED AS ORC;
 
 INSERT INTO motoharu_drivers_in SELECT * FROM motoharu_drivers;
+```
+  
+<br><br>
+
+## 4. Killing YARN tasks
+
+<br>
+
+Running MapReduce tasks or Hive tasks will not necessary end successfully in the end, and in case of failure the task will remain as a zombie runtime and cause negative impact to the future tasks. To avoid, it is recommended to kill unnecessary tasks periodically.
+
+To kill application tasks, first run:
+
+```command
+yarn app -list
+```
+
+<br>
+
+Then you will find the job ID like `application_157000XXXXXXX`. Then you can kill the task by:
+
+```command
+yarn app -kill application_157000XXXXXXX
 ```
 
 <br>
