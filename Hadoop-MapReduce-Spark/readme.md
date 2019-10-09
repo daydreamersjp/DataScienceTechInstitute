@@ -8,6 +8,7 @@
 [4. Killing YARN tasks](https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/Hadoop-MapReduce-Spark/readme.md#4-killing-yarn-tasks)
 
 
+
 <br>
 
 ## 1. Playing with HDFS
@@ -332,6 +333,8 @@ INSERT INTO motoharu_drivers_in SELECT * FROM motoharu_drivers;
 
 Running MapReduce tasks or Hive tasks will not necessarily end successfully. In case of failure the task will remain as a zombie runtime and cause negative impact to the future tasks. To avoid, it is recommended to kill unnecessary tasks periodically.
 
+<br>
+
 To kill application tasks, first run:
 
 ```command
@@ -345,6 +348,41 @@ Then you will find the job ID like `application_157000XXXXXXX`. Then you can kil
 ```command
 yarn app -kill application_157000XXXXXXX
 ```
+
+<br><br>
+
+## 5. HBase 
+
+<br>
+
+[HBase](https://hbase.apache.org/) is a service of Apache which supports the column storage as a type of NoSQL. Here I will present how to make an HBase table, scan and delete it.
+
+<br> 
+
+Start HBase command line on edge command prompt with:
+```command
+hbase shell
+```
+
+<br>
+
+HBase takes the column families as schema and allows any columns under the column families. See [here](http://hbase.apache.org/book.html#columnfamily) for more information. 
+
+<br> 
+
+To create an HBase table first define the column families with a table name. Here's an example with the table name `rating` and the column families `opinion` and `meta`.
+```command
+create 'rating', 'opinion', 'meta'
+```
+
+<br>
+
+Each row needs to be unique and identified by a Rowkey. Rowkey is a key used in lexicographical way in sorting it data and storing it on its storage as a [HFile](http://hbase.apache.org/book.html#_writing_hfiles_directly_during_bulk_import) on HDFS.  
+
+<br>
+
+The command lines below will create 2 rows with two Rowkeys "row1" and "row2". 
+
 
 <br>
 
