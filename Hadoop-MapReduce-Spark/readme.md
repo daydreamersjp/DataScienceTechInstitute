@@ -7,6 +7,7 @@
 
 [4. Killing YARN tasks](https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/Hadoop-MapReduce-Spark/readme.md#4-killing-yarn-tasks)
 
+[5. HBase](https://github.com/daydreamersjp/DataScienceTechInstitute/blob/master/Hadoop-MapReduce-Spark/readme.md#5-hbase)
 
 
 <br>
@@ -381,7 +382,79 @@ Each row needs to be unique and identified by a Rowkey. Rowkey is a key used in 
 
 <br>
 
-The command lines below will create 2 rows with two Rowkeys "row1" and "row2". 
+The command lines below will create 2 rows with two Rowkeys "row1" and "row2". The table was created with two column families "opinion" and "meta" as above. The "opinion" has two columns "vote" and "comment", the "meta" has one column "tconst", with some values filled in some values.
+
+```command
+put 'rating','row1','opinion:vote','10'
+put 'rating','row1', 'opinion:comment','Very good.'
+put 'rating','row1','meta:tconst','t000123'
+put 'ating','row2','opinion:vote','15'
+```
+
+<br>
+
+Taking a look at the table "rating" contens can be done with:
+
+```command
+scan 'rating'
+```
+
+<br>
+
+And here are command lines to drop the table:
+
+```command
+disable 'rating'
+drop 'rating'
+```
+
+<br><br>
+
+## 6. Spark RDD handling with pySpark
+
+<br>
+
+[RDD](https://spark.apache.org/docs/latest/rdd-programming-guide.html#resilient-distributed-datasets-rdds) is a core element of Spark ecosystem, to support its distributed processing.
+
+<br>
+
+[Zeppelin](https://zeppelin.apache.org/docs/0.5.5-incubating/tutorial/tutorial.html) is a notebook style Spark code processing platform. It work just like Jupyter notebook.
+
+<br>
+
+Using the pg16328.txt, downloaded from Gutenberg Project (https://www.gutenberg.org/ebooks/16328) to edge server on its home directory, here're command lines to count the word frequencies.
+
+```python
+%spark2.pyspark
+
+rdd_book = sc.textFile('pg16328.txt')
+rdd_book.take(20)
+rdd_words = rdd_book.flatMap(lambda l: l.split())
+rdd_one = rdd_words.map(lambda w: (w, 1))
+rdd_desc_frequency = rdd_one.reduceByKey(lambda v1, v2: v1+v2) \
+                            .map(lambda v: (v[1],v[0])) \
+                            .sortByKey(False)
+
+rdd_desc_frequency.take(20)
+```
+
+<br>
+
+The following is a list of the common pySpark functions to handle RDD.
+		
+<ul>
+	<li>map()</li>
+	<li>filter()</li>
+	<li>flatMap()</li>
+	<li>flatMapValues()</li>
+	<li>reduceByKey()</li>
+	<li>sortByKey()</li>
+	<li>collect()</li>
+	<li>take()</li>
+	<li>count()</li>
+</ul>
+
+
 
 
 <br>
