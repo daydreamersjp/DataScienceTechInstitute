@@ -486,7 +486,7 @@ for name, url in url.items():
 
 <br>
 
-Once you have dataframes, you can play around with pySpark SQL, using pySpark SQL functions. As a code example, here's how to get top 5 movies directed by Quentin Tarantino.
+Once you have dataframes, you can play around with pySpark SQL using pySpark SQL functions. As a code example, here's how to get top 5 movies directed by Quentin Tarantino.
 
 ```python
 %spark2.pyspark
