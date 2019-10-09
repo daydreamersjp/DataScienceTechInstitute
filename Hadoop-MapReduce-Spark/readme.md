@@ -232,7 +232,7 @@ Now I will get results like this:
 
 But wait. We did not see anything MapReduce!! Exactly. What you saw is running everything on Linux with no use of Hadoop. 
 
-To run MapReduce, I have to use 'hadoop-streaming.jar' in `yarn jar`. Again find the 'hadoop-streaming.jar' by `find / hadoop-streaming.jar`. Then, the command is:
+To run MapReduce, use 'hadoop-streaming.jar' in `yarn jar`. Again, find first the 'hadoop-streaming.jar' by `find / hadoop-streaming.jar`. Then, the command is:
 
 ```command
 yarn jar <full path to>/hadoop-streaming.jar \
@@ -245,7 +245,7 @@ yarn jar <full path to>/hadoop-streaming.jar \
 hdfs dfs -cat <full path to home>/part-00000 | sort -k2 -n
 ```
 
-And I will get the same results as we see in Linux standalone one.
+And you will get the same results as we see in Linux standalone one.
   
 <br><br>
 
