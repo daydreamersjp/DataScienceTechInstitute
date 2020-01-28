@@ -1,0 +1,247 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(lme4)
+library(mgcv)
+library(EnvStats)
+```
+
+
+Data Source:
+Used in Udacity course “intro to data science” Udacity course.
+New York City subway passenger statistics, with the weather variables. 
+https://www.dropbox.com/s/1lpoeh2w6px4diu/improved-dataset.zip?dl=0
+
+```{r}
+df <- read.csv('improved-dataset/improved-dataset/turnstile_weather_v2.csv')
+head(df,200)
+```
+
+
+2.3.1. UNIT vs. station
+
+```{r}
+df %>% group_by(UNIT,station) %>% count()
+```
+
+2.3.2. Deep dive in UNIT
+
+```{r}
+df %>% select(UNIT) %>% unique()
+```
+
+```{r}
+df %>% group_by(UNIT) %>% summarize(mean.per.unit = mean(ENTRIESn_hourly)) %>%
+  ggplot(aes(mean.per.unit)) + geom_histogram() + labs(x='Average Entry per UNIT')
+```
+
+```{r}
+df %>% group_by(UNIT) %>% summarize(mean.log.per.unit = mean(log(ENTRIESn_hourly+1))) %>%
+  ggplot(aes(mean.log.per.unit)) + geom_histogram() + labs(x='Average log(Entry+1) per UNIT')
+```
+
+```{r}
+df %>% group_by(UNIT) %>% summarize(mean.log.per.unit = mean(log(ENTRIESn_hourly+1))) %>%
+  filter(mean.log.per.unit>=3) %>%
+  ggplot(aes(mean.log.per.unit)) + geom_histogram() + labs(x='Average log(Entry+1) per UNIT')
+```
+
+
+2.3.3. ENTRIESn_hourly vs. DATEn
+
+```{r}
+df %>% ggplot(aes(x=DATEn,y=ENTRIESn_hourly)) + 
+  geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 90))
+```
+
+2.3.4. ENTRIESn_hourly vs. hour
+
+```{r}
+df1 <- df %>% 
+  filter(weekday==1)
+df1 %>%
+  ggplot(aes(x=as.factor(hour),y=ENTRIESn_hourly)) + 
+  geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 90))
+```
+
+2.3.5. Summary of data transformation and filtering
+```{r}
+df2 <- df1 %>% filter(hour==16) %>% filter(ENTRIESn_hourly>=exp(3)-1)
+```
+
+```{r}
+df2 %>% group_by(UNIT) %>% count()
+df2 %>% group_by(fog) %>% count()
+df2 %>% group_by(precipi) %>% count()
+df2 %>% group_by(rain) %>% count()
+df2 %>% group_by(tempi) %>% count()
+df2 %>% group_by(wspdi) %>% count()
+```
+
+```{r}
+df_reg <- df2 %>% 
+  mutate(log.ent=log(ENTRIESn_hourly+1)) %>% 
+  mutate(rain.tempi = rain*tempi, rain.wspdi=rain*wspdi) %>% 
+  select(log.ent,UNIT,fog,rain,tempi,wspdi, rain.tempi, rain.wspdi,ENTRIESn_hourly)
+```
+
+```{r}
+library(caret)
+set.seed(1000)
+train.index <- createDataPartition(df_reg$UNIT, p = .8, list = FALSE)
+df_reg.train <- df_reg[ train.index,]
+df_reg.test  <- df_reg[-train.index,]
+```
+
+```{r}
+summary(df_reg)
+```
+
+```{r}
+length(unique(df_reg$UNIT))
+```
+
+
+2.4.
+```{r}
+rsq <- function(actual,preds) {
+  rss <- sum((preds - actual) ^ 2)  ## residual sum of squares
+  tss <- sum((actual - mean(actual)) ^ 2)  ## total sum of squares
+  rsq <- 1 - rss/tss
+}
+```
+
+```{r}
+draw_qqplot.train <- function(model) {
+  qqnorm(df_reg.train[,1] - predict(model,df_reg.train[,-1]), pch = 1, frame = FALSE)
+  qqline(df_reg.train[,1] - predict(model,df_reg.train[,-1]), col = "steelblue", lwd = 2) 
+}
+
+draw_qqplot.test <- function(model) {
+  qqnorm(df_reg.test[,1] - predict(model,df_reg.test[,-1]), pch = 1, frame = FALSE)
+  qqline(df_reg.test[,1] - predict(model,df_reg.test[,-1]), col = "steelblue", lwd = 2) 
+}
+```
+
+
+
+
+2.4.1. All-in as fixed effects variables
+```{r}
+m1 <- bam(log.ent~fog+rain+tempi+wspdi+as.factor(UNIT),data=df_reg.train)
+summary(m1)
+draw_qqplot.train(m1)
+plot(df_reg.train$log.ent,df_reg.train$log.ent - fitted(m1,df_reg.train))
+rsq1 <- rsq(df_reg.train$log.ent,predict(m1,df_reg.train[,-1]))
+rsq1
+rsq1 <- rsq(df_reg.test$log.ent,predict(m1,df_reg.test,type='response'))
+rsq1
+```
+```{r}
+AIC(m1)
+```
+
+```{r}
+plot(df_reg.train$log.ent,residuals(m1,type='deviance'))
+```
+
+
+```{r}
+#m1 <- lm(log.ent~fog+rain+tempi+wspdi+as.factor(UNIT),data=df_reg.train)
+#summary(m1)
+#plot(m1)
+#draw_qqplot.test(m1)
+#rsq1 <- rsq(df_reg.test$log.ent,predict(m1,df_reg.test[,-1]))
+#rsq1
+```
+
+
+2.4.2. Smooth term on tempi and wspdi
+```{r}
+m2 <- bam(log.ent~fog+rain+s(tempi)+s(wspdi)+as.factor(UNIT),data=df_reg.train)
+plot(m2)
+summary(m2)
+draw_qqplot.train(m2)
+plot(df_reg.train$log.ent,df_reg.train$log.ent - fitted(m2,df_reg.train))
+rsq2 <- rsq(df_reg.train$log.ent,predict(m2,df_reg.train[,-1]))
+rsq2
+rsq2 <- rsq(df_reg.test$log.ent,predict(m2,df_reg.test,type='response'))
+rsq2
+```
+
+```{r}
+AIC(m2)
+```
+
+
+2.4.3.Interaction term
+```{r}
+m3 <- bam(log.ent~fog+rain+tempi+wspdi+rain.tempi+rain.wspdi+as.factor(UNIT),
+          select=TRUE,
+          data=df_reg.train)
+#plot(m3)
+summary(m3)
+draw_qqplot.train(m3)
+plot(df_reg.train$log.ent,df_reg.train$log.ent - fitted(m3,df_reg.train))
+rsq3 <- rsq(df_reg.train$log.ent,predict(m3,df_reg.train[,-1]))
+rsq3
+rsq3 <- rsq(df_reg.test$log.ent,predict(m3,df_reg.test,type='response'))
+rsq3
+```
+
+```{r}
+AIC(m3)
+```
+
+2.4.4. Random Effect on UNIT
+```{r}
+m4 <- gamm(log.ent~fog+rain+s(tempi)+s(wspdi),random=list(UNIT=~1),data=df_reg.train)
+m4
+rsq4 <- rsq(df_reg.train$log.ent,fitted(m4$lme))
+rsq4
+plot(df_reg.train$log.ent,df_reg.train[,1] - fitted(m4$lme))
+qqnorm(df_reg.train[,1] - fitted(m4$lme), pch = 1, frame = FALSE)
+qqline(df_reg.train[,1] - fitted(m4$lme), col = "steelblue", lwd = 2) 
+```
+
+
+```{r}
+AIC(m1,m2,m3)
+```
+
+
+EXTRA: 2.4.5. Without log transformation, poisson distribution with log link
+```{r}
+m5 <- bam(ENTRIESn_hourly~fog+rain+s(tempi)+s(wspdi)+as.factor(UNIT),data=df_reg.train,family=poisson(link='log'))
+plot(m5)
+summary(m5)
+rsq5 <- rsq(df_reg.train$ENTRIESn_hourly,fitted(m5,df_reg.train))
+rsq5
+rsq5 <- rsq(df_reg.test$ENTRIESn_hourly,predict(m5,df_reg.test,type='response'))
+rsq5
+plot(df_reg.train$ENTRIESn_hourly,residuals(m5,type='deviance'))
+```
+
+
+
+EXTRA: 2.4.6 Without log transformation, Gamma distribution with inverse link
+```{r}
+m6 <- bam(ENTRIESn_hourly~fog+rain+s(tempi)+s(wspdi)+as.factor(UNIT),data=df_reg.train,family=Gamma(link='inverse'))
+plot(m6)
+summary(m6)
+rsq6 <- rsq(df_reg.train$ENTRIESn_hourly,fitted(m6,df_reg.train))
+rsq6
+rsq6 <- rsq(df_reg.test$ENTRIESn_hourly,predict(m6,df_reg.test,type='response'))
+rsq6
+plot(df_reg.train$ENTRIESn_hourly,residuals(m6,type='deviance'))
+```
+
+
+

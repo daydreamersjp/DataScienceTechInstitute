@@ -1,0 +1,305 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+library(data.table)
+library(dplyr)
+library(MASS)
+library(glmnet)
+library(randomForest)
+library(factoextra)
+```
+
+
+```{r}
+df <- read.table('procespin.txt',header=TRUE)
+```
+
+```{r}
+df <- df %>% 
+  mutate(lny = log(y)) %>%
+  dplyr::select(lny, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10)
+```
+
+
+## 1.1. Initial glance at data
+
+```{r}
+summary(df)
+```
+
+```{r}
+pairs(df)
+```
+
+## 1.2. Train-test split
+
+```{r}
+comp_tbl = data.frame()
+for (seed in 1:5){
+  set.seed(seed)
+  train_idx <- sample(nrow(df),26,replace=F)
+  df_train <- df[train_idx,]
+  df_test <- df[-train_idx,]
+  ttest.res <- data.frame()
+  for (i in 1:11){
+    tt <- t.test(df_train[,i],df_test[,i])
+    ttest.res <- rbind(ttest.res,transpose(data.frame(c(tt$estimate,tt$p.value))))
+  }
+  comp_temp <- ttest.res %>% 
+    mutate(delta=V1-V2) %>% 
+    dplyr::select(c(V1,V2,delta,V3)) %>% 
+    round(2) 
+  colnames(comp_temp) <- c("Train Set Avg.","Test Set Avg.", "Delta", "p-value")
+  rownames(comp_temp) <- paste0(c('y','x1','x2','x3','x4','x5','x6','x7','x8','x9','x10'),'_',seed)
+  comp_tbl <- rbind(comp_tbl,comp_temp)
+}
+comp_tbl
+```
+
+```{r}
+write.csv(comp_tbl,'comp_tbl.csv',sep=",")
+```
+
+```{r}
+set.seed(2)
+train_idx <- sample(nrow(df),26,replace=F)
+df_train <- df[train_idx,]
+df_test <- df[-train_idx,]
+```
+
+## 1.3. First attempt by linear regression with all variables
+
+```{r}
+lm <- lm(lny~., data=df_train)
+summary(lm)
+plot(lm)
+```
+
+
+
+```{r}
+residuals=studres(lm)
+hist(residuals,freq=FALSE, main='Histogram of Studentized residuals')
+shapiro.test(residuals)
+```
+
+```{r}
+1 - sum((predict(lm,df_test)-df_test$lny)^2) / sum((mean(df_test$lny) - df_test$lny)^2)
+```
+
+## 1.4. linear regression - stepwise
+
+```{r}
+lm <- lm(lny~., data=df_train)
+step <- stepAIC(lm, direction = "both")
+step
+```
+
+
+```{r}
+lm <- lm(formula = lny ~ x1 + x2 + x4 + x5 + x8 + x9, data = df_train)
+summary(lm)
+plot(lm)
+residuals=studres(lm)
+hist(residuals,freq=FALSE, main='Histogram of Studentized residuals')
+shapiro.test(residuals)
+paste('R^2 on test set:',round(1 - sum((predict(lm,df_test)-df_test$lny)^2) / sum((mean(df_test$lny) - df_test$lny)^2),3))
+```
+
+## 1.5.	Linear regression with LASSO (Model #3)
+
+```{r}
+fit = glmnet(as.matrix(df_train[,-1]),as.matrix(df_train[,1]),alpha=1,intercept=T)
+plot(fit)
+```
+
+
+```{r}
+set.seed(1111)
+fitlasso <- cv.glmnet(as.matrix(df_train[,-1]),as.matrix(df_train[,1]),alpha=1,nfolds=5,intercept=T)
+plot(fitlasso)
+lambda.cv=fitlasso$lambda.1se  
+#lambda.cv
+```
+
+
+```{r}
+lm <- glmnet(as.matrix(df_train[,-1]),as.matrix(df_train[,1]),lambda=lambda.cv,alpha=1,intercept=T)
+lm$beta
+```
+
+```{r}
+p <- predict(lm,as.matrix(df_train[,-1]))
+paste('R^2 on training set:',round(1 - sum((p-df_train$lny)^2) / sum((mean(df_train$lny) - df_train$lny)^2),3))
+```
+
+```{r}
+p <- predict(lm,as.matrix(df_test[,-1]))
+paste('R^2 on test set:',round(1 - sum((p-df_test$lny)^2) / sum((mean(df_test$lny) - df_test$lny)^2),3))
+```
+
+
+## 1.6.	Linear regression with dimension reduction with PCA (Model #4)
+
+```{r}
+pca <- prcomp(df_train[,-1],scale=TRUE)
+fviz_eig(pca)
+```
+
+```{r}
+pca.var_explained <- pca$sdev^2 / sum(pca$sdev^2)
+cumsum(pca.var_explained)
+```
+
+```{r}
+pca$rotation
+```
+
+```{r}
+df_train.pca <- cbind(df_train[,1],pca$x[,1:5])
+colnames(df_train.pca) <- c("lny","PC1","PC2","PC3","PC4","PC5")
+lm <- lm(lny~., data=as.data.frame(df_train.pca))
+summary(lm)
+plot(lm)
+```
+
+```{r}
+df_test.pca <- as.data.frame(cbind(df_test[,1],predict(pca,df_test)))
+colnames(df_test.pca) <- c("lny","PC1","PC2","PC3","PC4","PC5")
+residuals=studres(lm)
+hist(residuals,freq=FALSE, main='Histogram of Studentized residuals')
+shapiro.test(residuals)
+paste('R^2 on test set:',round(1 - sum((predict(lm,df_test.pca)-df_test.pca$lny)^2) / sum((mean(df_test.pca$lny) - df_test.pca$lny)^2),3))
+```
+
+## 1.7.	Random Forest (Model #5)
+
+```{r}
+set.seed(1111)
+rf <- randomForest(lny~.,data=df_train,importance=T,proximity=T,mtry=4,nodesize=5)
+varImpPlot(rf,type=2,main="Importance Plot of Random Forest Model")
+residuals=rf$y - rf$predicted
+hist(residuals,freq=FALSE, main='Histogram of residuals')
+shapiro.test(residuals)
+paste('R^2 on train set:',round(1 - sum((rf$predicted-df_train$lny)^2) / sum((mean(df_train$lny) - df_train$lny)^2),3))
+paste('R^2 on test set:',round(1 - sum((predict(rf,df_test)-df_test$lny)^2) / sum((mean(df_test$lny) - df_test$lny)^2),3))
+```
+
+## 1.8.	Conclusion
+
+```{r}
+r2.train <- c()
+r2.test <- c()
+for (s in 2001:2010){
+  print(paste0("******************* seed: ",s," **********************"))
+  set.seed(s)
+  train_idx <- sample(nrow(df),26,replace=F)
+  df_train <- df[train_idx,]
+  df_test <- df[-train_idx,]
+  pca <- prcomp(df_train[,-1],scale=TRUE)
+  df_train.pca <- cbind(df_train[,1],pca$x[,1:5])
+  colnames(df_train.pca) <- c("lny","PC1","PC2","PC3","PC4","PC5")
+  lm <- lm(lny~., data=as.data.frame(df_train.pca))
+  print( summary(lm) )
+  r2.train <- append(r2.train,summary(lm)$r.squared)
+  df_test.pca <- as.data.frame(cbind(df_test[,1],predict(pca,df_test)))
+  colnames(df_test.pca) <- c("lny","PC1","PC2","PC3","PC4","PC5")
+  r2 <- 1 - sum((predict(lm,df_test.pca)-df_test.pca$lny)^2) / sum((mean(df_test.pca$lny) - df_test.pca$lny)^2)
+  print( paste('R^2 on test set:',round(r2,3)) )
+  r2.test <- append(r2.test,r2)
+}
+```
+
+```{r}
+r2.tr <- data.frame(r2.train) %>% mutate(type="Train")
+colnames(r2.tr) <- c("R2","Type")
+r2.te <- data.frame(r2.test) %>% mutate(type="Test")
+colnames(r2.te) <- c("R2","Type")
+r2.df <- rbind(r2.tr,r2.te)
+r2.df %>% 
+  ggplot() + geom_boxplot(aes(Type,R2)) + 
+    scale_x_discrete(limits=c("Train","Test")) +
+    labs(title="10 Repeats of Model #4 Evaluation")
+```
+
+```{r}
+r2.train <- c()
+r2.test <- c()
+for (s in 2001:2010){
+  set.seed(s)
+  train_idx <- sample(nrow(df),26,replace=F)
+  df_train <- df[train_idx,]
+  df_test <- df[-train_idx,]
+  fitlasso <- cv.glmnet(as.matrix(df_train[,-1]),as.matrix(df_train[,1]),alpha=1,nfolds=5,intercept=T)
+  lambda.cv=fitlasso$lambda.1se  
+  lm <- glmnet(as.matrix(df_train[,-1]),as.matrix(df_train[,1]),lambda=lambda.cv,alpha=1,intercept=T)
+  p <- predict(lm,as.matrix(df_train[,-1]))
+  r2.train <- append(r2.train,1 - sum((p-df_train$lny)^2) / sum((mean(df_train$lny) - df_train$lny)^2))
+  p <- predict(lm,as.matrix(df_test[,-1]))
+  r2.test <- append(r2.test,1 - sum((p-df_test$lny)^2) / sum((mean(df_test$lny) - df_test$lny)^2))
+}
+```
+
+```{r}
+r2.tr <- data.frame(r2.train) %>% mutate(type="Train")
+colnames(r2.tr) <- c("R2","Type")
+r2.te <- data.frame(r2.test) %>% mutate(type="Test")
+colnames(r2.te) <- c("R2","Type")
+r2.df <- rbind(r2.tr,r2.te)
+r2.df %>% 
+  ggplot() + 
+    geom_boxplot(aes(Type,R2)) + 
+    scale_x_discrete(limits=c("Train","Test")) +
+    labs(title="10 Repeats of Model #3 Evaluation")
+```
+
+
+```{r}
+r2.train <- c()
+r2.test <- c()
+for (s in 2001:2010){
+  set.seed(s)
+  train_idx <- sample(nrow(df),26,replace=F)
+  df_train <- df[train_idx,]
+  df_test <- df[-train_idx,]
+  lm <- lm(lny~., data=df_train)
+  step <- stepAIC(lm, direction = "both", trace=0)
+  r2.train <- append(r2.train, 1- sum((step$residuals)^2) / sum((df_train[,1]-mean(df_train[,1]))^2))
+  res <- df_test[,1] - predict(step,df_test[,-1])
+  r2.test <- append(r2.test, 1- sum((res)^2) / sum((df_test[,1]-mean(df_test[,1]))^2))
+}
+```
+
+```{r}
+r2.tr <- data.frame(r2.train) %>% mutate(type="Train")
+colnames(r2.tr) <- c("R2","Type")
+r2.te <- data.frame(r2.test) %>% mutate(type="Test")
+colnames(r2.te) <- c("R2","Type")
+r2.df <- rbind(r2.tr,r2.te)
+r2.df %>% 
+  ggplot() + 
+    geom_boxplot(aes(Type,R2)) + 
+    scale_x_discrete(limits=c("Train","Test")) +
+    labs(title="10 Repeats of Model #2 Evaluation")
+```
+
+```{r}
+# Final model
+lm <- lm(lny~., data=df)
+step <- stepAIC(lm, direction = "both")
+step
+```
+
+```{r}
+1- sum((step$residuals)^2) / sum((df[,1]-mean(df[,1]))^2)s
+```
+
+
+(- linear regression - ridge)
+(- linear regression - elastic net)
+(- decision tree)
+
